@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vuxon · 活成肆意非凡的作品</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --w:#FFFFFF;--b:#0D0D0D;--r:#C8392B;--g:#C8A46A;
+  --ash:#F6F5F3;--line:#E6E4E0;--soft:#2A2A2A;
+  --f-d:'DM Serif Display',serif;--f-s:'Barlow',sans-serif;--f-m:'DM Mono',monospace;
+  --nav-h:82px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--b);color:var(--b);font-family:var(--f-s);overflow-x:hidden;cursor:none;}
+#cur{width:7px;height:7px;background:var(--r);border-radius:50%;
+  position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s;}
+#cur-ring{width:26px;height:26px;border:0.5px solid rgba(13,13,13,.2);border-radius:50%;
+  position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .1s;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;
+  padding:0 68px;height:var(--nav-h);
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(13,13,13,.96);transition:background .3s,box-shadow .3s,padding .3s,height .3s;
+  box-shadow:0 1px 0 rgba(255,255,255,.08),0 10px 28px rgba(0,0,0,.16);
+  backdrop-filter:blur(10px);}
+nav.scrolled{background:rgba(13,13,13,.98);box-shadow:0 1px 0 rgba(255,255,255,.08);}
+.nl{font-family:var(--f-m);font-weight:500;font-size:14px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--w);text-decoration:none;transition:color .3s;}
+.nl .rx{color:var(--r);}
+nav.scrolled .nl{color:var(--w);}
+.nlinks{display:flex;gap:38px;list-style:none;align-items:center;}
+.nlinks a{
+  position:relative;
+  font-family:var(--f-s);font-size:13px;font-weight:300;letter-spacing:0;text-transform:none;
+  color:#e0e0e0;text-decoration:none;transition:color .2s,opacity .2s,transform .2s;
+}
+.nlinks a::after{
+  content:'';
+  position:absolute;left:0;right:0;bottom:-10px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);
+  transform:scaleX(.18);opacity:0;transition:transform .22s ease,opacity .22s ease;
+}
+nav.scrolled .nlinks a{color:#e0e0e0;}
+.nlinks a:hover{color:var(--w);opacity:1;transform:translateY(-1px);}
+.nlinks a:hover::after{transform:scaleX(1);opacity:1;}
+nav.scrolled .nlinks a:hover{color:var(--w);}
+.n-ctas{display:flex;align-items:center;gap:10px;}
+.n-ghost{font-family:var(--f-m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);background:none;border:1px solid rgba(255,255,255,.2);
+  padding:8px 16px;cursor:none;transition:all .2s;}
+nav.scrolled .n-ghost{color:rgba(255,255,255,.55);border-color:rgba(255,255,255,.2);}
+.n-ghost:hover{background:rgba(255,255,255,.1);}
+nav.scrolled .n-ghost:hover{background:rgba(255,255,255,.1);}
+.n-cta{
+  background:linear-gradient(180deg,#cf4335,#b93226);color:var(--w);font-family:var(--f-s);font-size:13px;font-weight:300;
+  letter-spacing:0;text-transform:none;padding:12px 24px;text-decoration:none;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 10px 24px rgba(200,57,43,.18), inset 0 1px 0 rgba(255,255,255,.12);
+  transition:transform .2s,box-shadow .2s,background .2s;}
+.n-cta:hover{transform:translateY(-1px);box-shadow:0 14px 28px rgba(200,57,43,.24), inset 0 1px 0 rgba(255,255,255,.12);background:linear-gradient(180deg,#d34739,#b93327);}
+
+/* REVEAL */
+.rev{opacity:0;transform:translateY(20px);transition:opacity .8s,transform .8s;}
+.rev.on{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.12s;}.d2{transition-delay:.22s;}.d3{transition-delay:.32s;}.d4{transition-delay:.42s;}
+
+/* ════════════════════════
+   01 HERO — 问题优先
+   "你是否……" 触发自我认同
+════════════════════════ */
+.hero{
+  min-height:100vh;background:var(--b);
+  display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+}
+.hero-grid-bg{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px);
+  background-size:56px 56px;
+}
+/* hero text */
+.hero-l{
+  padding:160px 56px 80px;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  position:relative;z-index:2;max-width:900px;
+}
+.hero-eyebrow{
+  font-family:var(--f-m);font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);margin-bottom:24px;
+  display:flex;align-items:center;gap:10px;
+  opacity:0;animation:fu .7s ease forwards .2s;
+}
+.hero-eyebrow::before{content:'';width:20px;height:0.5px;background:var(--r);opacity:.8;}
+/* 信仰句 — 主标题 */
+.hero-h1{
+  font-family:var(--f-d);font-style:italic;
+  font-size:clamp(52px,7.5vw,96px);
+  color:var(--w);line-height:.93;letter-spacing:-2px;
+  margin-bottom:0;
+  opacity:0;animation:fu 1s ease forwards .4s;
+}
+.hero-h1 .gd{color:var(--g);}
+.hero-h1 .rd{color:var(--r);}
+/* 分割线 */
+.hero-divider{
+  width:40px;height:1px;background:rgba(200,57,43,.65);
+  margin:28px 0;
+  opacity:0;animation:fu .6s ease forwards .7s;
+}
+/* 问题共鸣副标题 */
+.hero-sub-label{
+  font-family:var(--f-m);font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);margin-bottom:14px;
+  opacity:0;animation:fu .6s ease forwards .8s;
+}
+/* 问题清单 */
+.hero-problems{
+  display:flex;flex-direction:column;gap:8px;margin-bottom:32px;
+  opacity:0;animation:fu .8s ease forwards .85s;
+}
+.hp-row{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:13px;font-weight:300;color:rgba(255,255,255,.52);line-height:1.6;
+}
+.hp-check{
+  width:16px;height:16px;border:1px solid rgba(255,255,255,.18);
+  border-radius:50%;flex-shrink:0;margin-top:2px;
+  display:flex;align-items:center;justify-content:center;
+}
+.hp-check.on{background:var(--r);border-color:var(--r);}
+.hp-check.on::after{content:'✓';font-size:8px;color:var(--w);}
+.hero-ctas{
+  display:flex;align-items:center;gap:14px;
+  opacity:0;animation:fu .8s ease forwards 1s;
+}
+.btn-r{background:var(--r);color:var(--w);font-family:var(--f-s);font-size:10px;font-weight:500;
+  letter-spacing:.13em;text-transform:uppercase;padding:14px 30px;text-decoration:none;display:inline-block;}
+.btn-ghost-w{font-family:var(--f-m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.2);padding:13px 20px;
+  text-decoration:none;display:inline-block;transition:all .2s;}
+.btn-ghost-w:hover{background:rgba(255,255,255,.06);}
+/* right: echo photo */
+
+
+
+
+
+
+
+@keyframes fu{to{opacity:1;transform:translateY(0)}}
+
+/* ════════════════════════
+   02 PROOF BAR — 数字说话
+════════════════════════ */
+.proof-bar{
+  background:var(--r);padding:0;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;
+}
+.pb-cell{
+  padding:24px 28px;
+  border-right:1px solid rgba(255,255,255,.15);
+  display:flex;flex-direction:column;gap:4px;
+}
+.pb-cell:last-child{border-right:none;}
+.pbc-n{
+  font-family:var(--f-d);font-style:italic;font-size:32px;
+  color:var(--w);line-height:1;
+}
+.pbc-l{
+  font-family:var(--f-m);font-size:9px;letter-spacing:.08em;
+  text-transform:uppercase;color:rgba(255,255,255,.65);
+}
+
+/* ════════════════════════
+   03 PROBLEM → SOLUTION
+   StoryBrand式：明确危险，提供希望
+════════════════════════ */
+.ps-sect{
+  display:grid;grid-template-columns:1fr 1fr;
+  border-bottom:1px solid var(--line);
+}
+.ps-l{padding:88px 56px;background:var(--w);}
+.ps-r{padding:88px 56px;background:var(--ash);}
+.ps-label{
+  font-family:var(--f-m);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  margin-bottom:20px;display:flex;align-items:center;gap:10px;
+}
+.ps-label.dark{color:rgba(13,13,13,.4);}
+.ps-label.dark::before{content:'';width:20px;height:0.5px;background:var(--r);}
+.ps-label.light{color:rgba(255,255,255,.4);}
+.ps-title{font-family:var(--f-d);font-style:italic;
+  font-size:clamp(24px,3vw,36px);line-height:1.1;margin-bottom:20px;}
+.ps-title.dark{color:var(--b);}
+.ps-title.light{color:var(--w);}
+.ps-title .gd{color:var(--g);}
+.ps-title .rd{color:var(--r);}
+.ps-list{display:flex;flex-direction:column;gap:12px;}
+.psl-item{
+  font-size:13px;font-weight:300;line-height:1.7;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.psl-item.dark{color:rgba(13,13,13,.6);}
+.psl-item.light{color:rgba(255,255,255,.58);}
+.psl-icon{flex-shrink:0;width:18px;height:18px;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;font-size:9px;}
+.psl-icon.x{color:rgba(13,13,13,.25);}
+.psl-icon.check{color:var(--g);font-size:11px;}
+.psl-item strong{font-weight:500;}
+.psl-item.dark strong{color:var(--b);}
+.psl-item.light strong{color:rgba(255,255,255,.88);}
+
+/* ════════════════════════
+   04 THE PLAN — 3步清晰路径
+   Strategic Coach核心：让复杂变简单
+════════════════════════ */
+.plan-sect{padding:96px 56px;background:var(--w);}
+.plan-head{text-align:center;margin-bottom:64px;}
+.plan-label{font-family:var(--f-m);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(13,13,13,.35);margin-bottom:14px;}
+.plan-title{font-family:var(--f-d);font-style:italic;
+  font-size:clamp(28px,4vw,46px);color:var(--b);line-height:1.05;}
+.plan-title .rd{color:var(--r);}
+.plan-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  background:var(--line);border:1px solid var(--line);}
+.step{background:var(--w);padding:40px 32px;position:relative;}
+.step::after{content:'→';
+  position:absolute;right:-18px;top:50%;transform:translateY(-50%);
+  font-family:var(--f-m);font-size:18px;color:rgba(13,13,13,.12);
+  z-index:2;display:block;}
+.step:last-child::after{display:none;}
+.step-n{font-family:var(--f-d);font-style:italic;font-size:48px;
+  color:rgba(13,13,13,.05);line-height:1;margin-bottom:-8px;}
+.step-label{font-family:var(--f-m);font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--r);margin-bottom:10px;}
+.step-title{font-size:17px;font-weight:500;color:var(--b);margin-bottom:10px;}
+.step-desc{font-size:12px;font-weight:300;color:rgba(13,13,13,.55);line-height:1.8;}
+.plan-cta-wrap{text-align:center;margin-top:48px;}
+.plan-cta-sub{font-size:13px;font-weight:300;color:rgba(13,13,13,.45);margin-bottom:16px;}
+
+/* ════════════════════════
+   05 TOOLS — 框架资产展示
+   有专属名字，有版权感
+════════════════════════ */
+.tools-sect{background:var(--b);padding:96px 56px;}
+.tools-head{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:56px;}
+.th-label{font-family:var(--f-m);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(255,255,255,.45);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.th-label::before{content:'';width:20px;height:0.5px;background:var(--r);}
+.th-title{font-family:var(--f-d);font-style:italic;
+  font-size:clamp(26px,3.8vw,46px);color:var(--w);line-height:1.05;}
+.th-title .gd{color:var(--g);}
+.th-desc{font-size:13px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.95;}
+.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.06);}
+.tool-card{background:var(--b);padding:30px 24px;cursor:none;
+  transition:background .2s;position:relative;overflow:hidden;}
+.tool-card:hover{background:#131313;}
+.tool-card::before{content:'';position:absolute;top:0;left:0;
+  width:2px;height:0;background:var(--r);transition:height .35s ease;}
+.tool-card:hover::before{height:100%;}
+.tc-badge{
+  display:inline-block;font-family:var(--f-m);font-size:8px;letter-spacing:.08em;
+  text-transform:uppercase;padding:3px 8px;border:0.5px solid rgba(200,57,43,.3);
+  color:rgba(200,57,43,.6);margin-bottom:14px;
+}
+.tc-name{font-size:15px;font-weight:500;color:var(--w);margin-bottom:3px;}
+.tc-cn{font-family:var(--f-d);font-style:italic;font-size:11px;
+  color:rgba(255,255,255,.3);letter-spacing:1.5px;margin-bottom:12px;}
+.tc-desc{font-size:11px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.8;}
+.tc-formula{margin-top:12px;padding:9px 10px;background:rgba(255,255,255,.04);
+  font-family:var(--f-m);font-size:9px;color:rgba(255,255,255,.32);line-height:1.6;}
+
+/* ════════════════════════
+   06 365 INDEX — 数字震撼
+════════════════════════ */
+.idx-sect{
+  background:var(--b);
+  padding:0 56px 96px;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.idx-inner{
+  display:grid;grid-template-columns:.95fr 1.25fr;gap:40px;align-items:start;
+  padding:40px 40px 44px;
+  background:
+    radial-gradient(circle at top right,rgba(200,164,106,.08),transparent 34%),
+    linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.015));
+  border:1px solid rgba(255,255,255,.08);
+  border-top:none;
+}
+.idx-l{}
+.idx-label{font-family:var(--f-m);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(255,255,255,.38);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.idx-label::before{content:'';width:20px;height:0.5px;background:var(--r);}
+.idx-title{font-family:var(--f-d);font-style:italic;
+  font-size:clamp(26px,3.5vw,42px);color:var(--w);line-height:1.05;margin-bottom:16px;}
+.idx-title .rd{color:var(--r);}
+.idx-body{font-size:13px;font-weight:300;color:rgba(255,255,255,.58);line-height:1.9;margin-bottom:24px;}
+.idx-key{font-family:var(--f-d);font-style:italic;font-size:15px;
+  color:var(--g);padding-left:12px;border-left:2px solid rgba(200,164,106,.4);}
+.idx-r{
+  padding:8px 0 0;
+}
+.ibar{display:grid;grid-template-columns:110px 1fr 140px;gap:0 16px;
+  align-items:center;padding:14px 0;border-bottom:0.5px solid rgba(255,255,255,.08);}
+.ibar:first-child{border-top:0.5px solid rgba(255,255,255,.08);}
+.ib-base{font-family:var(--f-m);font-size:11px;font-weight:500;}
+.ib-base.dim{color:rgba(255,255,255,.25);}
+.ib-base.mid{color:rgba(255,255,255,.46);}
+.ib-base.bright{color:var(--w);font-size:12px;}
+.ib-track{height:3px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;}
+.ib-fill{height:100%;width:0;border-radius:1px;transition:width 1.4s ease;}
+.ib-fill.c0{background:rgba(255,255,255,.16);}
+.ib-fill.c1{background:rgba(255,255,255,.24);}
+.ib-fill.c2{background:rgba(200,57,43,.72);}
+.ib-fill.c3{background:rgba(200,164,106,.5);}
+.ib-fill.c4{background:rgba(200,164,106,.75);}
+.ib-fill.c5{background:var(--g);}
+.ib-result{font-family:var(--f-m);font-size:10px;text-align:right;}
+.ib-result.dim{color:rgba(255,255,255,.3);}
+.ib-result.mid{color:rgba(255,255,255,.5);}
+.ib-result.bright{color:var(--g);font-weight:500;}
+
+/* ════════════════════════
+   07 TESTIMONIALS — 成果证明
+   Strategic Coach最重要的板块
+════════════════════════ */
+.testi-sect{background:var(--w);padding:96px 56px;}
+.testi-head{text-align:center;margin-bottom:56px;}
+.testi-label{font-family:var(--f-m);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(13,13,13,.35);margin-bottom:14px;}
+.testi-title{font-family:var(--f-d);font-style:italic;
+  font-size:clamp(26px,3.5vw,42px);color:var(--b);line-height:1.05;}
+.testi-title .rd{color:var(--r);}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);}
+.tcard{background:var(--w);padding:32px 26px;}
+.tc-result{
+  background:var(--b);padding:14px 16px;margin-bottom:18px;
+}
+.tcr-number{font-family:var(--f-d);font-style:italic;font-size:28px;color:var(--g);line-height:1;}
+.tcr-label{font-family:var(--f-m);font-size:8px;letter-spacing:.08em;
+  text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:3px;}
+.tc-quote{font-size:13px;font-weight:300;color:rgba(13,13,13,.65);
+  line-height:1.85;font-style:italic;margin-bottom:16px;}
+.tc-author{display:flex;align-items:center;gap:10px;}
+.tca-avatar{width:32px;height:32px;background:var(--ash);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-d);font-style:italic;font-size:13px;color:rgba(13,13,13,.4);}
+.tca-info{}
+.tca-name{font-size:12px;font-weight:500;color:var(--b);}
+.tca-role{font-family:var(--f-m);font-size:8px;color:rgba(13,13,13,.3);margin-top:1px;}
+/* Featured testimonial */
+.tcard.featured{background:var(--b);}
+.tcard.featured .tc-quote{color:rgba(255,255,255,.65);}
+.tcard.featured .tca-name{color:var(--w);}
+.tcard.featured .tca-role{color:rgba(255,255,255,.3);}
+.tcard.featured .tca-avatar{background:rgba(255,255,255,.08);color:rgba(255,255,255,.4);}
+.tcard.featured .tc-result{background:rgba(200,164,106,.1);border:1px solid rgba(200,164,106,.2);}
+.tcard.featured .tcr-label{color:rgba(200,164,106,.6);}
+
+/* ════════════════════════
+   08 MEMBERSHIP — 三层递进
+   Strategic Coach核心结构
+════════════════════════ */
+.member-sect{background:var(--b);padding:96px 56px;}
+.member-head{text-align:center;margin-bottom:56px;}
+.member-label{font-family:var(--f-m);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(255,255,255,.45);margin-bottom:14px;}
+.member-title{font-family:var(--f-d);font-style:italic;
+  font-size:clamp(26px,3.5vw,42px);color:var(--w);line-height:1.05;}
+.member-title .rd{color:var(--r);}
+.member-subtitle{font-size:14px;font-weight:300;color:rgba(255,255,255,.5);
+  max-width:500px;margin:12px auto 0;line-height:1.8;}
+/* ── TIERS: 同等高度，颜色区分层级 ── */
+.tiers{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+  align-items:stretch;
+  border:1px solid rgba(255,255,255,.05);
+}
+
+.tier{
+  display:flex;flex-direction:column;
+  padding:44px 32px 36px;
+  position:relative;
+  border-right:1px solid rgba(255,255,255,.05);
+  background:rgba(255,255,255,.04);
+  transition:transform .25s ease,background .25s ease,border-color .25s ease,box-shadow .25s ease;
+}
+.tier:last-child{border-right:none;}
+.tier:hover{transform:translateY(-3px);}
+
+/* 顶部色条 — 统一粗细5px，颜色区分层级 */
+.tier::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:1px;
+}
+.tier-l1::before{background:rgba(255,255,255,.08);}
+.tier-l2::before{background:rgba(255,255,255,.08);}
+.tier-l3::before{background:rgba(255,255,255,.08);}
+
+/* 高级列：白底 + 左右加粗边框 + 整体用金色点缀，不用黑底 */
+.tier-l1{
+  background:rgba(255,255,255,.025);
+}
+.tier-l2{
+  background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.06));
+  box-shadow:inset 0 0 0 1px rgba(200,57,43,.12);
+}
+.tier-l3{
+  background:
+    radial-gradient(circle at top right,rgba(200,164,106,.12),transparent 34%),
+    linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02)),
+    var(--b);
+  box-shadow:inset 0 0 0 1px rgba(200,164,106,.22), 0 18px 42px rgba(0,0,0,.24);
+  z-index:1;
+}
+/* 修正最后一列border-right覆盖 */
+
+
+/* 等级标识 */
+.tier-level{
+  font-family:var(--f-m);font-size:8px;letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:6px;display:flex;align-items:center;gap:8px;
+}
+.tier-l1 .tier-level{color:rgba(255,255,255,.45);}
+.tier-l2 .tier-level{color:var(--r);}
+.tier-l3 .tier-level{color:rgba(200,164,106,.92);}
+
+/* 等级点阵 */
+.tier-dots{display:flex;gap:4px;align-items:center;}
+.tier-dot{width:6px;height:6px;border-radius:50%;}
+.tier-l1 .tier-dot.on{background:var(--w);}
+.tier-l1 .tier-dot.off{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);}
+.tier-l2 .tier-dot.on{background:var(--r);}
+.tier-l2 .tier-dot.off{background:rgba(200,57,43,.1);border:1px solid rgba(200,57,43,.2);}
+.tier-l3 .tier-dot.on{background:var(--g);}
+.tier-l3 .tier-dot.off{background:rgba(200,164,106,.08);border:1px solid rgba(200,164,106,.32);}
+
+/* 层级标签 badge */
+.tier-badge{
+  font-family:var(--f-m);font-size:8px;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:14px;display:inline-block;padding:3px 10px;
+}
+.tier-l1 .tier-badge{background:var(--w);color:var(--b);border:1px solid var(--w);}
+.tier-l2 .tier-badge{background:var(--r);color:var(--w);}
+.tier-l3 .tier-badge{background:var(--g);color:var(--w);box-shadow:0 8px 20px rgba(200,164,106,.18);}
+
+/* 名称 */
+.tier-name{font-family:var(--f-d);font-style:italic;font-size:24px;margin-bottom:3px;}
+.tier-l1 .tier-name{color:var(--w);}
+.tier-l2 .tier-name{color:var(--w);}
+.tier-l3 .tier-name{color:#FFF8EA;}
+
+.tier-en{
+  font-family:var(--f-m);font-size:9px;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:20px;
+}
+.tier-l1 .tier-en{color:rgba(255,255,255,.35);}
+.tier-l2 .tier-en{color:rgba(255,255,255,.42);}
+.tier-l3 .tier-en{color:rgba(255,255,255,.5);}
+
+.tier-divider{height:0.5px;margin-bottom:20px;}
+.tier-l1 .tier-divider{background:rgba(255,255,255,.1);}
+.tier-l2 .tier-divider{background:rgba(255,255,255,.12);}
+.tier-l3 .tier-divider{background:linear-gradient(90deg,rgba(200,164,106,.7),rgba(200,164,106,.18));}
+
+/* 功能列表 */
+.tier-features{display:flex;flex-direction:column;gap:10px;flex:1;margin-bottom:28px;}
+.tier-feat{font-size:12px;font-weight:300;line-height:1.6;
+  display:flex;gap:10px;align-items:baseline;}
+.tier-l1 .tier-feat{color:rgba(255,255,255,.55);}
+.tier-l2 .tier-feat{color:rgba(255,255,255,.62);}
+.tier-l3 .tier-feat{color:rgba(255,255,255,.72);}
+.tier-feat::before{content:'—';font-size:9px;flex-shrink:0;}
+.tier-l1 .tier-feat::before{color:rgba(255,255,255,.25);}
+.tier-l2 .tier-feat::before{color:var(--r);}
+.tier-l3 .tier-feat::before{color:var(--g);}   /* 高级：金色破折号 */
+.tier-feat strong{font-weight:500;}
+.tier-l1 .tier-feat strong{color:var(--w);}
+.tier-l2 .tier-feat strong{color:var(--w);}
+.tier-l3 .tier-feat strong{color:#FFF3D7;}
+
+/* CTA 按钮 */
+.tier-cta{display:inline-block;padding:13px 0;text-align:center;
+  font-family:var(--f-s);font-size:10px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;text-decoration:none;
+  border:1px solid;transition:all .2s;cursor:none;}
+.tier-l1 .tier-cta{background:var(--w);color:var(--b);border-color:var(--w);}
+.tier-l1 .tier-cta:hover{opacity:.88;}
+.tier-l2 .tier-cta{background:var(--r);color:var(--w);border-color:var(--r);}
+.tier-l2 .tier-cta:hover{opacity:.88;}
+.tier-l3 .tier-cta{background:var(--g);color:var(--w);border-color:var(--g);box-shadow:0 12px 28px rgba(200,164,106,.18);}
+.tier-l3 .tier-cta:hover{opacity:.95;transform:translateY(-1px);}
+
+.tier-note{font-family:var(--f-m);font-size:8px;margin-top:8px;text-align:center;letter-spacing:.04em;}
+.tier-l1 .tier-note{color:rgba(255,255,255,.35);}
+.tier-l2 .tier-note{color:rgba(255,255,255,.4);}
+.tier-l3 .tier-note{color:rgba(255,255,255,.46);}
+
+/* ════════════════════════
+   09 BOOKS — 知识资产
+════════════════════════ */
+.books-sect{background:var(--b);padding:88px 56px;}
+.books-head{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end;margin-bottom:48px;}
+.bh-label{font-family:var(--f-m);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(255,255,255,.45);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.bh-label::before{content:'';width:20px;height:0.5px;background:var(--r);}
+.bh-title{font-family:var(--f-d);font-style:italic;
+  font-size:clamp(24px,3.5vw,40px);color:var(--w);line-height:1.05;}
+.bh-title .rd{color:var(--r);}
+.bh-desc{font-size:13px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.9;}
+.books-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.07);margin-bottom:1px;}
+.bcard{background:var(--b);padding:24px 20px;position:relative;overflow:hidden;
+  cursor:none;transition:background .2s;}
+.bcard:hover{background:#131313;}
+.bcard.done{border-top:2px solid var(--g);}
+.bcard.coming{border-top:2px solid rgba(13,13,13,.08);}
+.bc-status{font-family:var(--f-m);font-size:8px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.bc-status.done{color:var(--g);}
+.bc-status.writing{color:rgba(255,255,255,.52);}
+.bc-status.brewing{color:rgba(255,255,255,.28);}
+.bc-title{font-family:var(--f-d);font-style:italic;font-size:16px;color:var(--w);
+  line-height:1.2;margin-bottom:6px;}
+.bc-desc{font-size:10px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.75;}
+.bc-num{position:absolute;bottom:12px;right:14px;font-family:var(--f-d);font-style:italic;
+  font-size:24px;color:rgba(255,255,255,.04);}
+
+/* ════════════════════════
+   10 WORKS GALLERY
+════════════════════════ */
+.works-sect{
+  background:linear-gradient(180deg,#faf8f4 0%,#ffffff 26%);
+  padding:104px 56px 88px;
+}
+.works-head{
+  display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:56px;
+  align-items:start;margin-bottom:52px;
+}
+.works-kicker{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--f-m);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(13,13,13,.38);margin-bottom:20px;
+}
+.works-kicker::before{
+  content:'';width:20px;height:.5px;background:var(--r);
+}
+.wh-label{font-family:var(--f-m);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(13,13,13,.35);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.wh-label::before{content:'';width:20px;height:0.5px;background:var(--r);}
+.wh-title{font-family:var(--f-d);font-style:italic;
+  font-size:clamp(34px,5vw,62px);color:var(--b);line-height:.96;letter-spacing:-1.5px;
+  max-width:540px;}
+.wh-title .rd{color:var(--r);}
+.wh-panel{
+  padding:28px 30px;
+  background:linear-gradient(180deg,#ffffff,#f8f4ed);
+  border:1px solid rgba(13,13,13,.08);
+  box-shadow:0 18px 40px rgba(13,13,13,.05);
+}
+.wh-desc{font-size:13px;font-weight:300;color:rgba(13,13,13,.58);line-height:1.9;}
+.wh-desc strong{font-weight:500;color:var(--b);}
+.wh-meta{
+  margin-top:18px;padding-top:18px;border-top:1px solid rgba(13,13,13,.08);
+  display:grid;grid-template-columns:repeat(2,1fr);gap:14px;
+}
+.wh-stat{
+  padding-right:8px;
+}
+.wh-stat-n{
+  font-family:var(--f-d);font-style:italic;font-size:28px;line-height:1;color:var(--g);
+  margin-bottom:4px;
+}
+.wh-stat-l{
+  font-family:var(--f-m);font-size:8px;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(13,13,13,.36);
+}
+.ws-submit{display:inline-block;margin-top:20px;padding:11px 24px;
+  border:1px solid rgba(13,13,13,.18);font-family:var(--f-m);font-size:8px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--b);text-decoration:none;
+  transition:transform .2s,background .2s,border-color .2s;}
+.ws-submit:hover{transform:translateY(-1px);background:#fff;border-color:rgba(13,13,13,.3);}
+.wgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);}
+.wcard{background:var(--w);overflow:hidden;cursor:none;display:flex;flex-direction:column;transition:background .2s;}
+.wcard:hover{background:#FAFAF9;}
+.wcard:hover .wci-inner{transform:scale(1.04);}
+.wcard.tall{grid-row:span 2;}
+.wcard.wide{grid-column:span 2;}
+.wci{overflow:hidden;flex-shrink:0;}
+.wci-inner{min-height:150px;width:100%;transition:transform .5s ease;
+  display:flex;align-items:center;justify-content:center;}
+.wcard.tall .wci-inner{min-height:320px;}
+.wcard.wide .wci-inner{min-height:170px;}
+.wcard.art .wci{background:#EEE8DF;}
+.wcard.product .wci{background:#EDEEF2;}
+.wcard.fashion .wci{background:#F0ECEB;}
+.wcard.biz .wci{background:#EBF0EC;}
+.wcard.craft .wci{background:#EDEAE6;}
+.wcard.book .wci{background:#EBE8F0;}
+.wci-inner svg{width:36%;height:36%;opacity:.1;}
+.wcb{padding:14px 16px;flex:1;display:flex;flex-direction:column;}
+.wc-cat{font-family:var(--f-m);font-size:8px;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(13,13,13,.28);margin-bottom:4px;}
+.wc-name{font-size:12px;font-weight:500;color:var(--b);margin-bottom:2px;line-height:1.25;}
+.wc-author{font-family:var(--f-m);font-size:8px;color:rgba(13,13,13,.3);margin-bottom:6px;}
+.wc-desc{font-size:10px;font-weight:300;color:rgba(13,13,13,.48);line-height:1.65;flex:1;}
+.wc-v6{font-family:var(--f-m);font-size:8px;color:var(--r);margin-top:7px;}
+.wcard-submit{background:var(--b);padding:28px 22px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.wcs-t{font-family:var(--f-d);font-style:italic;font-size:16px;color:var(--w);margin-bottom:7px;line-height:1.2;}
+.wcs-s{font-size:10px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.7;margin-bottom:13px;}
+.wcs-b{background:var(--r);padding:8px 16px;font-family:var(--f-m);font-size:8px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--w);cursor:none;}
+
+/* ════════════════════════
+   11 FEITOU
+════════════════════════ */
+.feitou-sect{background:var(--b);padding:88px 56px;}
+.ft-head{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end;margin-bottom:44px;}
+.fth-label{font-family:var(--f-m);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.fth-label::before{content:'';width:20px;height:0.5px;background:var(--r);}
+.fth-title{font-family:var(--f-d);font-style:italic;
+  font-size:clamp(24px,3.5vw,40px);color:var(--w);line-height:1.05;}
+.fth-title .gd{color:var(--g);}
+.fth-desc{font-size:13px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.9;}
+.fth-desc strong{font-weight:500;color:var(--g);}
+.ft-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.06);}
+.ftcard{background:var(--b);padding:26px 22px;cursor:none;transition:background .2s;}
+.ftcard:hover{background:#111;}
+.ftc-type{font-family:var(--f-m);font-size:8px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;}
+.ftc-type.body{color:rgba(200,57,43,.6);}
+.ftc-type.obj{color:rgba(200,164,106,.65);}
+.ftc-type.world{color:rgba(80,150,200,.6);}
+.ftc-title{font-family:var(--f-d);font-style:italic;font-size:16px;color:var(--w);margin-bottom:6px;}
+.ftc-desc{font-size:11px;font-weight:300;color:rgba(255,255,255,.44);line-height:1.75;}
+.ft-cta-wrap{margin-top:32px;text-align:center;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ════════════════════════
+   13 CTA — 唯一行动点
+════════════════════════ */
+.cta-sect{background:var(--r);padding:100px 56px;text-align:center;position:relative;overflow:hidden;}
+.cta-x{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:.04;}
+.cta-label{font-family:var(--f-m);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(255,255,255,.6);margin-bottom:24px;}
+.cta-title{font-family:var(--f-d);font-style:italic;
+  font-size:clamp(30px,5.5vw,64px);color:var(--w);line-height:1.0;
+  letter-spacing:-1px;max-width:800px;margin:0 auto 14px;}
+.cta-sub{font-size:14px;font-weight:300;color:rgba(255,255,255,.75);
+  max-width:420px;margin:14px auto 40px;line-height:1.9;}
+.btn-w{background:var(--w);color:var(--b);font-family:var(--f-s);font-size:10px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;padding:14px 40px;text-decoration:none;display:inline-block;}
+.cta-note{font-family:var(--f-m);font-size:9px;color:rgba(255,255,255,.4);
+  margin-top:16px;letter-spacing:.04em;}
+
+/* ════════════════════════
+   FOOTER
+════════════════════════ */
+footer{background:var(--b);padding:64px 56px 40px;}
+.ftop{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;
+  padding-bottom:44px;border-bottom:0.5px solid rgba(255,255,255,.07);}
+.fb-logo{font-family:var(--f-s);font-weight:600;font-size:14px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--w);margin-bottom:10px;}
+.fb-faith{font-family:var(--f-d);font-style:italic;font-size:13px;
+  color:var(--g);line-height:1.4;margin-bottom:10px;}
+.fb-sub{font-size:10px;font-weight:300;color:rgba(255,255,255,.35);line-height:1.8;max-width:200px;}
+
+.fb-photo-mini img{width:100%;height:100%;object-fit:cover;object-position:center 20%;}
+.fc-label{font-family:var(--f-m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:#e0e0e0;margin-bottom:14px;}
+.fc-links{display:flex;flex-direction:column;gap:9px;}
+.fc-links a{font-family:var(--f-s);font-size:13px;font-weight:300;letter-spacing:0;line-height:1.6;color:#e0e0e0;
+  text-decoration:none;transition:color .2s;}
+.fc-links a:hover{color:var(--r);}
+.fbot{display:flex;justify-content:space-between;align-items:center;padding-top:20px;}
+.fbot-c{font-family:var(--f-m);font-size:9px;letter-spacing:.06em;color:rgba(255,255,255,.45);}
+
+
+/* ══════════════════════
+   10X VUX FORWARD
+   信仰的具象化定义
+══════════════════════ */
+.vux10-sect{
+  background:var(--w);
+  padding:0;
+  overflow:hidden;
+  position:relative;
+}
+.vux10-bg-num{
+  position:absolute;
+  font-family:var(--f-d);font-style:italic;
+  font-size:clamp(200px,30vw,420px);
+  color:rgba(13,13,13,.04);
+  line-height:1;letter-spacing:-8px;
+  right:-20px;top:50%;transform:translateY(-50%);
+  pointer-events:none;user-select:none;
+  white-space:nowrap;
+}
+.vux10-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  min-height:72vh;
+}
+.vux10-l{
+  padding:96px 56px 80px;
+  display:flex;flex-direction:column;justify-content:center;
+  border-right:1px solid rgba(13,13,13,.08);
+  position:relative;z-index:2;
+}
+.vux10-eyebrow{
+  font-family:var(--f-m);font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--r);opacity:.75;margin-bottom:16px;
+  display:flex;align-items:center;gap:10px;
+}
+.vux10-eyebrow::before{content:'';width:20px;height:0.5px;background:var(--r);}
+.vux10-title{
+  font-family:var(--f-d);font-style:italic;
+  font-size:clamp(36px,4.8vw,58px);
+  color:var(--b);line-height:.96;letter-spacing:-1.5px;
+  margin-bottom:6px;
+}
+.vux10-title .gd{color:var(--g);}
+.vux10-en{
+  font-family:var(--f-m);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(13,13,13,.38);margin-bottom:28px;
+}
+.vux10-def{
+  font-size:13px;font-weight:300;color:rgba(13,13,13,.62);
+  line-height:2;max-width:420px;margin-bottom:24px;
+}
+.vux10-def strong{font-weight:500;color:var(--b);}
+.vux10-def .gd{color:var(--g);}
+.vux10-gold{
+  border-left:2px solid rgba(200,164,106,.65);
+  padding:14px 18px;margin-bottom:32px;max-width:420px;
+}
+.vux10-gold-text{
+  font-family:var(--f-d);font-style:italic;
+  font-size:15px;color:var(--g);line-height:1.55;
+}
+.vux10-cta{
+  display:inline-block;background:var(--r);
+  padding:13px 28px;font-family:var(--f-s);font-size:10px;
+  font-weight:500;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--w);text-decoration:none;
+  align-self:flex-start;
+}
+.vux10-r{
+  padding:96px 56px 80px;
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;z-index:2;gap:0;
+}
+.vux10-dim{
+  padding:26px 0;
+  border-bottom:1px solid rgba(13,13,13,.08);
+  display:grid;grid-template-columns:44px 1fr;gap:0 18px;
+  align-items:start;
+}
+.vux10-dim:last-child{border-bottom:none;}
+.vux10-dim-n{
+  font-family:var(--f-d);font-style:italic;
+  font-size:32px;color:rgba(13,13,13,.07);
+  line-height:1;padding-top:4px;
+}
+.vux10-dim-label{
+  font-family:var(--f-m);font-size:8px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--r);margin-bottom:5px;opacity:.7;
+}
+.vux10-dim-title{
+  font-size:14px;font-weight:500;color:var(--b);
+  margin-bottom:6px;line-height:1.2;
+}
+.vux10-dim-desc{
+  font-size:11px;font-weight:300;color:rgba(13,13,13,.58);
+  line-height:1.8;
+}
+.vux10-dim-desc .gd{color:var(--g);}
+.vux10-tags{
+  background:rgba(13,13,13,.03);
+  border-top:1px solid rgba(13,13,13,.08);
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:0;
+}
+.vux10-tag{
+  padding:18px 20px;
+  border-right:1px solid rgba(13,13,13,.08);
+  text-align:center;
+}
+.vux10-tag:last-child{border-right:none;}
+.vux10-tag-word{
+  font-family:var(--f-d);font-style:italic;
+  font-size:18px;color:var(--g);margin-bottom:4px;
+}
+.vux10-tag-desc{
+  font-family:var(--f-m);font-size:8px;letter-spacing:.08em;
+  text-transform:uppercase;color:rgba(13,13,13,.42);
+}
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav{padding:0 22px;height:72px;}
+  .nlinks{display:none;}
+  .hero{grid-template-columns:1fr;}
+  
+  
+  
+  .proof-bar{grid-template-columns:1fr 1fr;}
+  .pb-cell{border-right:none;border-bottom:1px solid rgba(255,255,255,.15);}
+  .pb-cell:nth-child(odd){border-right:1px solid rgba(255,255,255,.15);}
+  .vux10-inner,.ps-sect,.idx-inner,.tools-head,.books-head,.works-head,.ft-head,
+  .ps-l,.ps-r,
+  section,.plan-sect,.tools-sect,.testi-sect,.member-sect,.books-sect,.works-sect,.feitou-sect,.cta-sect,.idx-sect,.vux10-l,.vux10-r{padding:72px 22px;}
+  .idx-inner{padding:28px 24px 30px;grid-template-columns:1fr;gap:28px;}
+  .vux10-bg-num{display:none;}
+  .vux10-tags{grid-template-columns:1fr;}
+  .plan-steps,.tiers,.testi-grid{grid-template-columns:1fr;align-items:stretch;}
+  .step::after{display:none;}
+  .tools-grid{grid-template-columns:1fr 1fr;}
+  .books-grid,.wgrid,.ft-grid{grid-template-columns:1fr 1fr;}
+  .wcard.tall,.wcard.wide{grid-column:span 1;grid-row:span 1;}
+  .ftop{grid-template-columns:1fr 1fr;gap:28px;}
+  .works-head{grid-template-columns:1fr;gap:24px;}
+  .wh-meta{grid-template-columns:1fr 1fr;}
+  
+  .hero-l{padding:120px 22px 56px;}
+}
+@media(max-width:540px){
+  .tools-grid,.books-grid,.wgrid,.ft-grid,.proof-bar{grid-template-columns:1fr;}
+  .pb-cell{border-right:none;}
+  .ftop{grid-template-columns:1fr;}
+  .fbot{flex-direction:column;gap:6px;}
+  .ibar{grid-template-columns:1fr;gap:8px;}
+  .ib-result{text-align:left;}
+  .wh-meta{grid-template-columns:1fr;}
+  
+}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nl">VU<span class="rx">X</span>ON</a>
+  <ul class="nlinks">
+    <li><a href="#10x" class="nav-10x">10x</a></li>
+    <li><a href="#plan">如何开始</a></li>
+    <li><a href="#tools">工具体系</a></li>
+    <li><a href="#books">书籍</a></li>
+    <li><a href="#works">作品展</a></li>
+    <li><a href="#membership">加入</a></li>
+  </ul>
+  <div class="n-ctas">
+    <a href="#membership" class="n-cta">立即加入</a>
+  </div>
+</nav>
+
+<!-- ①  HERO -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-l">
+    <div class="hero-eyebrow">Vuxon · 10x Vux Forward · 进化穿透者</div>
+    <h1 class="hero-h1">
+      活成<span class="gd">肆意非凡</span><br>的作品<span class="rd">。</span>
+    </h1>
+    <div class="hero-divider"></div>
+    <div class="hero-sub-label">如果你也有这样的感觉——</div>
+    <div class="hero-problems">
+      <div class="hp-row">
+        <div class="hp-check on"></div>
+        有很多想法，但不知道从哪个维度突破
+      </div>
+      <div class="hp-row">
+        <div class="hp-check on"></div>
+        努力了很久，感觉像在原地转圈
+      </div>
+      <div class="hp-row">
+        <div class="hp-check on"></div>
+        感觉自己本该活成更好的那个版本
+      </div>
+      <div class="hp-row">
+        <div class="hp-check on"></div>
+        想找到一群真正同频的人，一起穿透
+      </div>
+    </div>
+    <div class="hero-ctas">
+      <a href="#plan" class="btn-r">探索 10x Vux Forward</a>
+      <a href="#membership" class="btn-ghost-w">查看会员方案</a>
+    </div>
+  </div>
+</section>
+
+<!-- ②  PROOF BAR -->
+<div class="proof-bar">
+  <div class="pb-cell">
+    <div class="pbc-n">8</div>
+    <div class="pbc-l">系列书籍 · 精修中/写作中</div>
+  </div>
+  <div class="pb-cell">
+    <div class="pbc-n">6</div>
+    <div class="pbc-l">专属思维工具框架</div>
+  </div>
+  <div class="pb-cell">
+    <div class="pbc-n">1000天</div>
+    <div class="pbc-l">11×90 自治时区系统</div>
+  </div>
+  <div class="pb-cell">
+    <div class="pbc-n">×37.8</div>
+    <div class="pbc-l">365指数 · 年度最小穿透倍数</div>
+  </div>
+</div>
+
+
+<!-- ②·⑤  10X VUX FORWARD -->
+<section class="vux10-sect" id="10x">
+  <div class="vux10-bg-num">10×</div>
+  <div class="vux10-inner">
+
+    <!-- 左：概念定义 -->
+    <div class="vux10-l rev">
+      <div class="vux10-eyebrow">10x Vux Forward · 穿透性跃迁</div>
+      <div class="vux10-title">
+        不是<span class="gd">变好一点</span>，<br>
+        是<span class="gd">10倍</span>向前穿透。
+      </div>
+      <div class="vux10-en">10x Vux Forward</div>
+      <div class="vux10-def rev d1">
+        <p>活成肆意非凡的作品，不是一个模糊的方向——它是一次<strong>量级上的跃迁</strong>。</p>
+        <p style="margin-top:12px;">10x Vux Forward 是这句信仰的具象化定义：在生命力、品味力、决策力、作品力、倍增力、超然力六个维度，实现<strong class="gd">穿透性的10倍改变</strong>，而不是线性的10%优化。</p>
+        <p style="margin-top:12px;">它不靠更努力。它靠<strong>换维度</strong>——找到那个阻滞点，在那里精准穿透，其余的会跟着共振。</p>
+      </div>
+      <div class="vux10-gold rev d2">
+        <div class="vux10-gold-text">We don't grow. We Vux.<br>穿透，不是成长。</div>
+      </div>
+      <a href="#plan" class="vux10-cta rev d3">开始你的10x穿透 →</a>
+    </div>
+
+    <!-- 右：三个维度 -->
+    <div class="vux10-r">
+      <div class="vux10-dim rev d1">
+        <div class="vux10-dim-n">×</div>
+        <div>
+          <div class="vux10-dim-label">10x · 量级</div>
+          <div class="vux10-dim-title">不是10%，是10倍</div>
+          <div class="vux10-dim-desc">线性努力带来线性结果。穿透性改变需要<span class="gd">换一个维度发力</span>——找到那个杠杆点，轻推，震动整个系统。365指数™已经告诉你数学：1.04³⁶⁵ ≈ 1,648,803。</div>
+        </div>
+      </div>
+      <div class="vux10-dim rev d2">
+        <div class="vux10-dim-n">→</div>
+        <div>
+          <div class="vux10-dim-label">Forward · 方向</div>
+          <div class="vux10-dim-title">向前，不回头</div>
+          <div class="vux10-dim-desc">10x Forward 不是绕圈——是单向的穿透。每一个时区结束，你就是一个新的人。<span class="gd">11×90™ 自治时区</span>保证方向：每90天一次蜕皮，向前，不折返。</div>
+        </div>
+      </div>
+      <div class="vux10-dim rev d3">
+        <div class="vux10-dim-n">V</div>
+        <div>
+          <div class="vux10-dim-label">Vux · 穿透</div>
+          <div class="vux10-dim-title">穿透，是一种存在方式</div>
+          <div class="vux10-dim-desc">Vux 不是你做的事，是你选择的<span class="gd">存在方式</span>。当你在 Vux，你不在优化自己——你在活成那部作品。6V螺旋™ 是穿透的操作系统，VDAI™ 是穿透困境的引擎。</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- 底部三个关键词条 -->
+  <div class="vux10-tags">
+    <div class="vux10-tag rev">
+      <div class="vux10-tag-word">10倍跃迁</div>
+      <div class="vux10-tag-desc">不是优化 · 是量级改变</div>
+    </div>
+    <div class="vux10-tag rev d1">
+      <div class="vux10-tag-word">穿透性</div>
+      <div class="vux10-tag-desc">找到阻滞点 · 精准发力</div>
+    </div>
+    <div class="vux10-tag rev d2">
+      <div class="vux10-tag-word">向前</div>
+      <div class="vux10-tag-desc">单向 · 不折返 · 不回头</div>
+    </div>
+  </div>
+</section>
+
+<!-- ③  PROBLEM → SOLUTION -->
+<div class="ps-sect">
+  <div class="ps-l">
+    <div class="rev">
+      <div class="ps-label dark">你现在卡在哪里</div>
+      <h2 class="ps-title dark">不是你不够努力，<br>是你<span class="rd">缺少一套系统</span>。</h2>
+    </div>
+    <div class="ps-list rev d1">
+      <div class="psl-item dark">
+        <div class="psl-icon x">✗</div>
+        <span><strong>努力但不知道方向</strong>——在六个维度里，你可能只在一两个维度用力，其他维度在拖你</span>
+      </div>
+      <div class="psl-item dark">
+        <div class="psl-icon x">✗</div>
+        <span><strong>负面状态消耗能量</strong>——没有工具把阻力转化成资源，同样的困境反复出现</span>
+      </div>
+      <div class="psl-item dark">
+        <div class="psl-icon x">✗</div>
+        <span><strong>缺少同频的见证者</strong>——一个人进化，没有人看见，很容易在某个临界点放弃</span>
+      </div>
+      <div class="psl-item dark">
+        <div class="psl-icon x">✗</div>
+        <span><strong>没有结构化的时间框架</strong>——"计划"和"改变"之间永远有一段消失的中间地带</span>
+      </div>
+    </div>
+  </div>
+  <div class="ps-r" style="background:var(--b);">
+    <div class="rev">
+      <div class="ps-label light">Vuxon 给你的</div>
+      <h2 class="ps-title light"><span style="font-family:var(--f-s);font-style:normal;letter-spacing:.04em;">10x Vux Forward</span>，<br>让穿透<span class="gd">可操作、可持续</span>。</h2>
+    </div>
+    <div class="ps-list rev d1">
+      <div class="psl-item light">
+        <div class="psl-icon check">✓</div>
+        <span><strong>6V螺旋</strong>——六维同步诊断，精准找到本周阻滞点，在那里施压</span>
+      </div>
+      <div class="psl-item light">
+        <div class="psl-icon check">✓</div>
+        <span><strong>SEF转释器 + 逆向功能化</strong>——把每一个负面状态转化为未被开发的资源</span>
+      </div>
+      <div class="psl-item light">
+        <div class="psl-icon check">✓</div>
+        <span><strong>Vuxers 社群</strong>——同频的人，互相见证，互相扰动，不是一个人的战役</span>
+      </div>
+      <div class="psl-item light">
+        <div class="psl-icon check">✓</div>
+        <span><strong>11×90 自治时区</strong>——每90天一个完整序章，结构化的蜕皮节律</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ④  THE PLAN -->
+<div class="plan-sect" id="plan">
+  <div class="plan-head rev">
+    <div class="plan-label">3步开始 · How It Works</div>
+    <h2 class="plan-title">加入 <span style="font-family:var(--f-s);font-style:normal;letter-spacing:.04em;">Vuxon</span>，<br>只需&thinsp;<span class="rd">三步</span>。</h2>
+  </div>
+  <div class="plan-steps">
+    <div class="step rev d1">
+      <div class="step-n">01</div>
+      <div class="step-label">确认你是 Vuxer</div>
+      <div class="step-title">做一次6V自我诊断</div>
+      <div class="step-desc">用6V螺旋框架对六个维度进行首次评分。10分钟，找到你现在最阻滞的那个维度——这是你的第一个穿透入口。</div>
+    </div>
+    <div class="step rev d2">
+      <div class="step-n">02</div>
+      <div class="step-label">声明你的第一个时区</div>
+      <div class="step-title">开启 Zone 01 · 90天序章</div>
+      <div class="step-desc">不是设定目标，是声明意图。用 Ignition 相位点火，写下你这90天要活成什么样的作品。从这一刻起，你正式在 Vux。</div>
+    </div>
+    <div class="step rev d3">
+      <div class="step-n">03</div>
+      <div class="step-label">进入社群，被人看见</div>
+      <div class="step-title">加入 Vuxers · 同频共振</div>
+      <div class="step-desc">一个人的进化容易在临界点放弃。Vuxers 是你的见证者，不是评判者。当你把作品放出来，进化就变得不可逆了。</div>
+    </div>
+  </div>
+  <div class="plan-cta-wrap rev d4">
+    <div class="plan-cta-sub">准备好了吗？先做一次6V诊断，找到你的10x穿透入口。</div>
+    <a href="#membership" class="btn-r">免费开始6V诊断 →</a>
+  </div>
+</div>
+
+<!-- ⑤  TOOLS -->
+<section class="tools-sect" id="tools">
+  <div class="tools-head rev">
+    <div>
+      <div class="th-label">6大工具框架 · Proprietary Tools</div>
+      <h2 class="th-title">每个工具都有<br>专属的<span class="gd">操作路径</span>。</h2>
+    </div>
+    <p class="th-desc">Vuxon 的工具不是泛泛的建议，是有名字、有步骤、可重复操作的框架。你学一次，用一辈子。越用越深，不会过期。</p>
+  </div>
+  <div class="tools-grid">
+    <div class="tool-card rev d1">
+      <div class="tc-badge">Tool · 01</div>
+      <div class="tc-name">6V螺旋™</div>
+      <div class="tc-cn">六维穿透框架</div>
+      <div class="tc-desc">六个维度同步扰动，螺旋上升。找到阻滞维度，精准施压，其他维度跟着位移共振。</div>
+      <div class="tc-formula">生命力 · 品味力 · 决策力 · 作品力 · 倍增力 · 超然力</div>
+    </div>
+    <div class="tool-card rev d2">
+      <div class="tc-badge">Tool · 02</div>
+      <div class="tc-name">逆向功能化™</div>
+      <div class="tc-cn">能量守恒定律</div>
+      <div class="tc-desc">把负面状态从"Bug"转化为"Raw Resource"。心理上的能量守恒——消耗即赋能。</div>
+      <div class="tc-formula">Bug → Raw Resource · 消耗 → 赋能</div>
+    </div>
+    <div class="tool-card rev d3">
+      <div class="tc-badge">Tool · 03</div>
+      <div class="tc-name">SEF转释器™</div>
+      <div class="tc-cn">三步转化操作系统</div>
+      <div class="tc-desc">定义表象 → 提取本质 → 赋予功能。三步把任何负面状态转化成可用资源。</div>
+      <div class="tc-formula">Surface → Essence → Functionalize</div>
+    </div>
+    <div class="tool-card rev d1">
+      <div class="tc-badge">Tool · 04</div>
+      <div class="tc-name">VDAI视界引擎™</div>
+      <div class="tc-cn">四维突破框架</div>
+      <div class="tc-desc">从困境到点火的完整路径——捕捉能量、推演愿景、重构蓝图、瞬时爆发。</div>
+      <div class="tc-formula">Vortex · Dreamscape · Architecture · Ignition</div>
+    </div>
+    <div class="tool-card rev d2">
+      <div class="tc-badge">Tool · 05</div>
+      <div class="tc-name">11×90™ 自治时区</div>
+      <div class="tc-cn">约1000天的序章系统</div>
+      <div class="tc-desc">11个90天，约1000天。每个时区是完整的自治实验，也是你这部作品的一个章节。</div>
+      <div class="tc-formula">11 × 90天 ≈ 1000天 · 每时区 = 一次蜕皮</div>
+    </div>
+    <div class="tool-card rev d3">
+      <div class="tc-badge">Tool · 06</div>
+      <div class="tc-name">365指数™</div>
+      <div class="tc-cn">指数级跃迁公式</div>
+      <div class="tc-desc">1.01³⁶⁵≈37.8。每天只比昨天好1%，一年后是今天的37.8倍。最小扰动的最大累积效应。</div>
+      <div class="tc-formula">x³⁶⁵ · x>1 → 指数级跃迁 · x<1 → 指数级衰竭</div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑥  365 INDEX -->
+<div class="idx-sect">
+  <div class="idx-inner">
+    <div class="idx-l rev">
+      <div class="idx-label">365指数™ · 从工具到增幅</div>
+      <h2 class="idx-title">指数级的跃迁，<br>来自<span class="rd">1个数学公式</span>。</h2>
+      <p class="idx-body">前面的每一个工具，都不是为了给你更多概念，而是为了把每天的基数往上推一点点。每天只比昨天多1%，365天后你是现在的37.8倍。这不是励志，这是复利结构。<br><br>Vuxon 所有工具，最终都服务于同一件事: 让你把那个基数从0.99变成1.01，再变成1.03。</p>
+      <div class="idx-key">你现在是哪个基数？<br>Vuxon 帮你找到它，然后穿透它。</div>
+    </div>
+    <div class="idx-r rev d1">
+      <div class="ibar"><div class="ib-base dim">0.99³⁶⁵</div><div class="ib-track"><div class="ib-fill c0" data-w="2"></div></div><div class="ib-result dim">≈ 0.03 · 衰竭</div></div>
+      <div class="ibar"><div class="ib-base mid">1³⁶⁵</div><div class="ib-track"><div class="ib-fill c1" data-w="8"></div></div><div class="ib-result mid">= 1 · 原地</div></div>
+      <div class="ibar"><div class="ib-base mid">1.01³⁶⁵</div><div class="ib-track"><div class="ib-fill c2" data-w="18"></div></div><div class="ib-result mid">≈ 37.8 · 起势</div></div>
+      <div class="ibar"><div class="ib-base bright">1.02³⁶⁵</div><div class="ib-track"><div class="ib-fill c3" data-w="38"></div></div><div class="ib-result bright">≈ 1,377 · 穿透</div></div>
+      <div class="ibar"><div class="ib-base bright">1.03³⁶⁵</div><div class="ib-track"><div class="ib-fill c4" data-w="66"></div></div><div class="ib-result bright">≈ 48,482 · 跃迁</div></div>
+      <div class="ibar"><div class="ib-base bright">1.04³⁶⁵</div><div class="ib-track"><div class="ib-fill c5" data-w="100"></div></div><div class="ib-result bright">≈ 1,648,803 · 非凡</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑦  TESTIMONIALS -->
+<section class="testi-sect">
+  <div class="testi-head rev">
+    <div class="testi-label">成果证明 · Results</div>
+    <h2 class="testi-title"><span style="font-family:var(--f-s);font-style:normal;letter-spacing:.04em;">Vuxers</span> 活成了<span class="rd">什么样子</span>。</h2>
+  </div>
+  <div class="testi-grid">
+    <div class="tcard rev d1">
+      <div class="tc-result">
+        <div class="tcr-number">×3.2</div>
+        <div class="tcr-label">90天内收入倍增</div>
+      </div>
+      <div class="tc-quote">"用VDAI视界引擎处理了一个卡了8个月的商业决策，整个方向在一次deep work后清晰了。之前觉得是外部问题，其实是我自己的视界上限。"</div>
+      <div class="tc-author">
+        <div class="tca-avatar">子</div>
+        <div class="tca-info">
+          <div class="tca-name">@Vuxer_子木</div>
+          <div class="tca-role">Zone 03 · 品牌创业</div>
+        </div>
+      </div>
+    </div>
+    <div class="tcard featured rev d2">
+      <div class="tc-result">
+        <div class="tcr-number">Zone 05</div>
+        <div class="tcr-label">完成第五个时区 · 450天进化</div>
+      </div>
+      <div class="tc-quote">"Vuxon 改变了我看待'阻力'的方式。以前我在和生活对抗，现在我在和生活共振。SEF转释器是我这五年用过的最实用的心理工具——没有之一。"</div>
+      <div class="tc-author">
+        <div class="tca-avatar">云</div>
+        <div class="tca-info">
+          <div class="tca-name">@Vuxer_云初</div>
+          <div class="tca-role">Vux Sovereign · 自治主</div>
+        </div>
+      </div>
+    </div>
+    <div class="tcard rev d3">
+      <div class="tc-result">
+        <div class="tcr-number">首月</div>
+        <div class="tcr-label">产品发布即回本</div>
+      </div>
+      <div class="tc-quote">"加入 Vuxers 之前，我设计的东西只有我自己看。把作品放进社群的第一天，收到了12条真实反馈——那是我第一次感觉自己的创作被真正看见了。"</div>
+      <div class="tc-author">
+        <div class="tca-avatar">浩</div>
+        <div class="tca-info">
+          <div class="tca-name">@Vuxer_浩然</div>
+          <div class="tca-role">Zone 03 · 潮玩设计师</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑧  MEMBERSHIP TIERS -->
+<section class="member-sect" id="membership">
+  <div class="member-head rev">
+    <div class="member-label">会员方案 · Membership</div>
+    <h2 class="member-title">3个层级，<br>1个方向：<span class="rd">活成作品</span>。</h2>
+    <p class="member-subtitle">从使用工具，到社群共振，到一对一穿透——每一层都在前一层的基础上深入。</p>
+  </div>
+  <div class="tiers">
+
+    <!-- ① 入门 -->
+    <div class="tier tier-l1 rev d1">
+      <div class="tier-level">
+        <div class="tier-dots">
+          <div class="tier-dot on"></div>
+          <div class="tier-dot off"></div>
+          <div class="tier-dot off"></div>
+        </div>
+        Level 01
+      </div>
+      <div class="tier-badge">入门</div>
+      <div class="tier-name">Vuxling</div>
+      <div class="tier-en">初界 · Zone 开始者</div>
+      <div class="tier-divider"></div>
+      <div class="tier-features">
+        <div class="tier-feat"><strong>6V螺旋</strong>工具完整使用</div>
+        <div class="tier-feat"><strong>11×90 时区</strong>系统 + 引导</div>
+        <div class="tier-feat">365指数追踪工具</div>
+        <div class="tier-feat">Vuxers 社群基础访问</div>
+        <div class="tier-feat">每月工具使用直播</div>
+        <div class="tier-feat">书籍内容精选摘要</div>
+      </div>
+      <a href="#" class="tier-cta">开始 Zone 01 →</a>
+      <div class="tier-note">月付 · 随时可升级</div>
+    </div>
+
+    <!-- ② 中级 -->
+    <div class="tier tier-l2 rev d2">
+      <div class="tier-level">
+        <div class="tier-dots">
+          <div class="tier-dot on"></div>
+          <div class="tier-dot on"></div>
+          <div class="tier-dot off"></div>
+        </div>
+        Level 02
+      </div>
+      <div class="tier-badge">进阶</div>
+      <div class="tier-name">Vuxer</div>
+      <div class="tier-en">破界者 · 完整体验</div>
+      <div class="tier-divider"></div>
+      <div class="tier-features">
+        <div class="tier-feat"><strong>全部6套工具</strong>完整访问</div>
+        <div class="tier-feat"><strong>SEF转释器 + VDAI</strong> 深度工作坊</div>
+        <div class="tier-feat">Vuxers <strong>社群完整访问</strong></div>
+        <div class="tier-feat">作品展<strong>优先展示</strong>权</div>
+        <div class="tier-feat"><strong>17种物恋</strong>推荐 + 佣金折扣</div>
+        <div class="tier-feat">线下活动<strong>优先报名</strong></div>
+        <div class="tier-feat">季度创始人问答直播</div>
+      </div>
+      <a href="#" class="tier-cta">加入 Vuxers →</a>
+      <div class="tier-note">年付 · 最受欢迎</div>
+    </div>
+
+    <!-- ③ 高级 -->
+    <div class="tier tier-l3 rev d3">
+      <div class="tier-level">
+        <div class="tier-dots">
+          <div class="tier-dot on"></div>
+          <div class="tier-dot on"></div>
+          <div class="tier-dot on"></div>
+        </div>
+        Level 03
+      </div>
+      <div class="tier-badge">高阶</div>
+      <div class="tier-name">Vux Sovereign</div>
+      <div class="tier-en">自治主 · 深度陪跑</div>
+      <div class="tier-divider"></div>
+      <div class="tier-features">
+        <div class="tier-feat">包含 Vuxer 所有权益</div>
+        <div class="tier-feat"><strong>一对一咨询</strong>（季度）</div>
+        <div class="tier-feat">商业决策<strong>VDAI深度穿透</strong></div>
+        <div class="tier-feat">个人品牌<strong>作品力激活</strong></div>
+        <div class="tier-feat">Vux Apex <strong>资格申请通道</strong></div>
+        <div class="tier-feat">线下活动<strong>免费参与</strong></div>
+        <div class="tier-feat">书籍签名版 + 新书优先</div>
+      </div>
+      <a href="#" class="tier-cta">预约了解 →</a>
+      <div class="tier-note">年付 · 限额招募</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ⑨  BOOKS -->
+<section class="books-sect" id="books">
+  <div class="books-head rev">
+    <div>
+      <div class="bh-label">书籍矩阵 · Vuxon Library</div>
+      <h2 class="bh-title">八部书，<br>一套<span class="rd">世界观</span>。</h2>
+    </div>
+    <p class="bh-desc rev d1">每一本书是信仰的一个切面。每一本书是信仰的一个切面，从真实的撕裂、蜕皮、穿透里生长出来。</p>
+  </div>
+  <div class="books-grid">
+    <div class="bcard done rev d1"><div class="bc-status done">✓ 精修中</div><div class="bc-title">爆改的艺术</div><div class="bc-desc">从内到外的系统性重构。身体、习惯、认知——一次彻底的自我爆改手术。</div><div class="bc-num">01</div></div>
+    <div class="bcard coming rev d2"><div class="bc-status writing">写作中</div><div class="bc-title">撸铁与禅</div><div class="bc-desc">铁与禅，肉体与精神，两种极性合成一种存在密度。</div><div class="bc-num">02</div></div>
+    <div class="bcard coming rev d3"><div class="bc-status brewing">酝酿中</div><div class="bc-title">金钱溢出游戏</div><div class="bc-desc">让金钱溢出而不是积累。倍增力维度的核心理论。</div><div class="bc-num">03</div></div>
+    <div class="bcard coming rev d4"><div class="bc-status brewing">酝酿中</div><div class="bc-title">免于情感寄生的自由</div><div class="bc-desc">情感独立不是冷漠——是不被任何人的能量场绑架的自由。</div><div class="bc-num">04</div></div>
+  </div>
+  <div class="books-grid">
+    <div class="bcard coming rev d1"><div class="bc-status brewing">酝酿中</div><div class="bc-title">逆生长投资学</div><div class="bc-desc">在别人看不见的地方找到临界点——决策力与倍增力的交汇。</div><div class="bc-num">05</div></div>
+    <div class="bcard coming rev d2"><div class="bc-status brewing">酝酿中</div><div class="bc-title">开口的艺术</div><div class="bc-desc">每一次开口都是一次创作——语言是活成作品最直接的材料。</div><div class="bc-num">06</div></div>
+    <div class="bcard coming rev d3"><div class="bc-status brewing">酝酿中</div><div class="bc-title">超然目标学</div><div class="bc-desc">站在目标之上看目标——让目标服务于作品，不是反过来。</div><div class="bc-num">07</div></div>
+    <div class="bcard coming rev d4" style="border-top:2px solid var(--g);">
+      <div class="bc-status" style="color:var(--g);font-family:var(--f-m);font-size:8px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;">终极之作</div>
+      <div class="bc-title" style="color:var(--g);">活成肆意非凡的作品</div>
+      <div class="bc-desc">信仰本身成为书。前七本活完后，自然生长出来的那本。</div>
+      <div class="bc-num" style="color:rgba(200,164,106,.05);">08</div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑩  WORKS GALLERY -->
+<section class="works-sect" id="works">
+  <div class="works-head rev">
+    <div>
+      <div class="works-kicker">Vuxers 作品展 · Works Gallery</div>
+      <h2 class="wh-title"><span class="rd">英雄之地</span>。</h2>
+    </div>
+    <div class="wh-panel rev d1">
+      <p class="wh-desc">每一个 Vuxer 都在活成一部作品。<strong>所有的创意都有一个可安放的家园。</strong><br><br>社群不只是学习聊天，更是展示自我的地方——你在这里被看见，不是被评判。</p>
+      <div class="wh-meta">
+        <div class="wh-stat">
+          <div class="wh-stat-n">6</div>
+          <div class="wh-stat-l">创作维度入口</div>
+        </div>
+        <div class="wh-stat">
+          <div class="wh-stat-n">1</div>
+          <div class="wh-stat-l">个被看见的地方</div>
+        </div>
+      </div>
+      <a href="#membership" class="ws-submit">提交你的作品 →</a>
+    </div>
+  </div>
+  <div class="wgrid">
+    <div class="wcard tall art rev d1">
+      <div class="wci"><div class="wci-inner"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="none" stroke="#C8A46A" stroke-width="1.5"/><path d="M30 50 Q50 15 70 50 Q50 85 30 50Z" fill="none" stroke="#C8A46A" stroke-width="1"/></svg></div></div>
+      <div class="wcb"><div class="wc-cat">视觉艺术 · 水彩</div><div class="wc-name">《无边界》系列 · 12幅</div><div class="wc-author">@Vuxer_晓禾 · Zone 02</div><div class="wc-desc">用水彩探索"超然力"在视觉上的形态。Zone 02 第60天开始动笔。</div><div class="wc-v6">V·06 超然力</div></div>
+    </div>
+    <div class="wcard product rev d2">
+      <div class="wci"><div class="wci-inner"><svg viewBox="0 0 100 100"><rect x="25" y="30" width="50" height="50" rx="4" fill="none" stroke="#888" stroke-width="1.5"/><circle cx="50" cy="55" r="12" fill="none" stroke="#888" stroke-width="1"/></svg></div></div>
+      <div class="wcb"><div class="wc-cat">产品设计 · 潮玩</div><div class="wc-name">「临界点」限定公仔</div><div class="wc-author">@Vuxer_浩然 · Zone 03</div><div class="wc-desc">用SEF转释器处理失业后的能量，设计成潮玩。首批100个，两天售罄。</div><div class="wc-v6">V·04 作品力</div></div>
+    </div>
+    <div class="wcard fashion rev d3">
+      <div class="wci"><div class="wci-inner"><svg viewBox="0 0 100 100"><path d="M25 25 L20 50 L40 50 L40 85 L60 85 L60 50 L80 50 L75 25 L60 32 Q50 22 40 32Z" fill="none" stroke="#888" stroke-width="1.5"/></svg></div></div>
+      <div class="wcb"><div class="wc-cat">服装设计</div><div class="wc-name">「蜕」系列针织外套</div><div class="wc-author">@Vuxer_小鹿 · Zone 01</div><div class="wc-desc">Zone 01完成后开始的第一个设计项目，小批量制作。</div><div class="wc-v6">V·02 品味力</div></div>
+    </div>
+    <div class="wcard wide biz rev d1">
+      <div class="wci"><div class="wci-inner"><svg viewBox="0 0 200 100"><rect x="15" y="20" width="70" height="60" rx="2" fill="none" stroke="#888" stroke-width="1.2"/><circle cx="145" cy="50" r="28" fill="none" stroke="#C8A46A" stroke-width="1.2"/><line x1="85" y1="50" x2="117" y2="50" stroke="#888" stroke-width=".8"/></svg></div></div>
+      <div class="wcb"><div class="wc-cat">商业创意 · 品牌创业</div><div class="wc-name">「生长周期」有机食品品牌</div><div class="wc-author">@Vuxer_子木 · Zone 02-03</div><div class="wc-desc">用VDAI从辞职困境推演出完整商业逻辑。三个月上线，首月回本。</div><div class="wc-v6">V·05 倍增力</div></div>
+    </div>
+    <div class="wcard book rev d2">
+      <div class="wci"><div class="wci-inner"><svg viewBox="0 0 100 100"><rect x="20" y="15" width="60" height="75" rx="2" fill="none" stroke="#C8392B" stroke-width="1.5"/><line x1="30" y1="35" x2="70" y2="35" stroke="#C8392B" stroke-width=".8" opacity=".4"/><line x1="30" y1="48" x2="70" y2="48" stroke="#C8392B" stroke-width=".8" opacity=".4"/></svg></div></div>
+      <div class="wcb"><div class="wc-cat">出版 · 自印书</div><div class="wc-name">《给儿子的三十封信》</div><div class="wc-author">@Vuxer_云初 · Zone 03</div><div class="wc-desc">Zone 03期间写完。私下印刷100本，送给父母朋友们。</div><div class="wc-v6">V·04 作品力</div></div>
+    </div>
+    <div class="wcard-submit rev d3">
+      <div class="wcs-t">你的作品<br>在这里等着。</div>
+      <div class="wcs-s">一幅画，一本书，一件衣服，一个商业创意——只要是你活出来的，这里就是它的家。</div>
+      <div class="wcs-b" onclick="document.querySelector('#membership').scrollIntoView({behavior:'smooth'})">提交作品 →</div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑪  FEITOU -->
+<section class="feitou-sect" id="feitou">
+  <div class="ft-head rev">
+    <div>
+      <div class="fth-label">17种物恋 · Curated Objects</div>
+      <h2 class="fth-title">物，是作品<br>落地成<span class="gd">现实</span>的方式。</h2>
+    </div>
+    <p class="fth-desc rev d1">物恋不是消费主义。每件推荐都经过一个问题：<strong>它让你更像那个你想活成的人吗？</strong><br><br>身体、物品、世界——三类17种，全部经过真实验证与认可。</p>
+  </div>
+  <div class="ft-grid">
+    <div class="ftcard rev d1"><div class="ftc-type body">身体 · Body · 5种</div><div class="ftc-title">身体即作品</div><div class="ftc-desc">训练、饮食、抗衰——身体是你唯一不能外包的资产。它决定你能承载多大密度的生命。</div></div>
+    <div class="ftcard rev d2"><div class="ftc-type obj">物品 · Objects · 6种</div><div class="ftc-title">物品即审美宣言</div><div class="ftc-desc">香薰、珠宝、本子、家居——你用的每件东西在无声地说话，品味力由此被培养。</div></div>
+    <div class="ftcard rev d3"><div class="ftc-type world">世界 · World · 6种</div><div class="ftc-title">与世界的接触</div><div class="ftc-desc">线下聚会、旅行、跨界——Vuxers 在真实的世界里把作品活出来，不只在线上共振。</div></div>
+  </div>
+  <div class="ft-cta-wrap rev d2">
+    <a href="#" class="btn-ghost-w" style="border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.55);">探索17种物恋 →</a>
+  </div>
+</section>
+
+
+
+<!-- ⑬  CTA -->
+<section class="cta-sect">
+  <div class="cta-x">
+    <svg width="600" height="600" viewBox="0 0 100 100">
+      <line x1="5" y1="5" x2="95" y2="95" stroke="white" stroke-width=".4"/>
+      <line x1="95" y1="5" x2="5" y2="95" stroke="white" stroke-width=".4"/>
+    </svg>
+  </div>
+  <div class="cta-label">Vuxon · 10x Vux Forward · 开始你的第一个时区</div>
+  <h2 class="cta-title rev">活成肆意非凡的作品。</h2>
+  <p class="cta-sub rev d1">这句话不是口号。它是一种你选择了就回不了头的活法。<br>Vuxon 在这里，等那些准备好了的人。</p>
+  <a href="#membership" class="btn-w rev d2">免费开始6V诊断 →</a>
+  <div class="cta-note rev d3">或者 <a href="#membership" style="color:rgba(255,255,255,.6);text-decoration:underline;">查看完整会员方案</a></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ftop">
+    <div>
+      <div class="fb-logo">VU<span style="color:#C8392B">X</span>ON</div>
+      <div class="fb-faith">活成肆意非凡的作品。</div>
+      <div class="fb-sub">进化穿透者的思维操作系统。六套工具，八部书籍，一个信仰。</div>
+      
+    </div>
+    <div>
+      <div class="fc-label">思维工具</div>
+      <div class="fc-links">
+        <a href="#">6V螺旋™</a><a href="#">逆向功能化™</a>
+        <a href="#">SEF转释器™</a><a href="#">VDAI视界引擎™</a>
+        <a href="#">11×90™ 自治时区</a><a href="#">365指数™</a>
+      </div>
+    </div>
+    <div>
+      <div class="fc-label">内容</div>
+      <div class="fc-links">
+        <a href="#">爆改的艺术 ✓</a><a href="#">书籍矩阵</a>
+        <a href="#">Vuxers作品展</a><a href="#">17种物恋</a>
+      </div>
+    </div>
+    <div>
+      <div class="fc-label">加入</div>
+      <div class="fc-links">
+        <a href="#">Vuxers 社群</a><a href="#">会员方案</a>
+        <a href="#">商业咨询</a><a href="#">线下活动</a>
+        <a href="#">vuxon.net</a>
+      </div>
+    </div>
+  </div>
+  <div class="fbot">
+    <span class="fbot-c">© 2026 Vuxon · All Rights Reserved</span>
+    <span class="fbot-c">vuxon.net</span>
+  </div>
+</footer>
+
+<script>
+// Cursor
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.tool-card,.tcard,.bcard,.ftcard,.wcard,.tier,.step').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.5)';ring.style.opacity='.12';});
+  el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';ring.style.opacity='1';});
+});
+
+// Nav
+const syncNavState=()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>80);
+};
+window.addEventListener('scroll',syncNavState);
+syncNavState();
+
+
+// Reveal
+const obs=new IntersectionObserver(e=>{
+  e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('on');});
+},{threshold:.07});
+document.querySelectorAll('.rev').forEach(el=>obs.observe(el));
+
+// 365 bars
+const barObs=new IntersectionObserver(e=>{
+  e.forEach(x=>{if(x.isIntersecting){
+    document.querySelectorAll('.ib-fill').forEach(f=>{
+      if(f.dataset.w)setTimeout(()=>{f.style.width=f.dataset.w+'%';},100);
+    });barObs.disconnect();
+  }});
+},{threshold:.2});
+const bs=document.querySelector('.ibar');if(bs)barObs.observe(bs);
+</script>
+</body>
+</html>
